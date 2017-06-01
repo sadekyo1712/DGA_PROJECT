@@ -57,7 +57,7 @@ def plot_confusion_matrix(confusion_matrix, labels, title='Confusion Matrix'):
 
     percent_convert = (confusion_matrix * 100) / np.array(np.matrix(confusion_matrix.sum(axis=1)).T)
 
-    print '[*] Confusion matrix status :'
+    print '[*] Confusion matrix of ' + title +' status :'
     for i, label_i in enumerate(labels):
         for j, label_j in enumerate(labels):
             print '>> Ratio %s/%s is: %.2f%% ( %d/%d )' % (label_j, label_i, percent_convert[i][j],
@@ -77,12 +77,13 @@ def plot_confusion_matrix(confusion_matrix, labels, title='Confusion Matrix'):
     plt.xlabel('Predicted')
     plt.ylabel('True')
     # plt.show()
-    # plt.savefig()
+    plt.savefig('./image_analysis/' + title + '.png')
 
 
 def run(excute_bigram=True, excute_lstm=True, excute_rf=True, excute_bigram_multi=True, excute_lstm_multi=True,
              excute_rf_multi=True, k_fold=10, gate=False):
 
+    print '[*] Loading......'
     if gate or (not os.path.isfile(RESULT)):
 
         rf_result, bigram_result, lstm_result, \
@@ -98,6 +99,8 @@ def run(excute_bigram=True, excute_lstm=True, excute_rf=True, excute_bigram_mult
     else:
         result = pickle.load(open(RESULT, 'rb'))
 
+    print '[*] Finish evaluate'
+    print '[*] Analyzing and building result data.......'
     number_class = None
     index_to_name_rf_dict = None
     index_to_name_bigram_dict = None
@@ -110,9 +113,11 @@ def run(excute_bigram=True, excute_lstm=True, excute_rf=True, excute_bigram_mult
 
     if result['random_forest']:
         rf_result = result['random_forest']
-        # confusion_matrix = rf_result['confusion_matrix']
-        # labels = ['legit', 'dga']
-        # plot_confusion_matrix(confusion_matrix, labels, title='Random forest CM')
+        # ________________
+        confusion_matrix = rf_result['confusion_matrix']
+        labels = ['legit', 'dga']
+        plot_confusion_matrix(confusion_matrix, labels, title='Random forest CM')
+        # ________________
         y_true_table = rf_result['y']
         prob_dict = rf_result['probs']
         rf_fpr, rf_tpr, _ = roc_curve(y_true_table, prob_dict['dga'])
@@ -126,9 +131,11 @@ def run(excute_bigram=True, excute_lstm=True, excute_rf=True, excute_bigram_mult
             temp_fpr, temp_tpr, _ = roc_curve(each_bigram_result['y'], each_bigram_result['probs'])
             fpr.append(temp_fpr)
             tpr.append(temp_tpr)
-            # confusion_matrix = each_bigram_result['confusion_matrix']
-            # labels = ['legit', 'dga']
-            # plot_confusion_matrix(confusion_matrix, labels, title='Bigram CM')
+            # ________________
+            confusion_matrix = each_bigram_result['confusion_matrix']
+            labels = ['legit', 'dga']
+            plot_confusion_matrix(confusion_matrix, labels, title='Bigram CM')
+            # ________________
 
         bigram_fpr, bigram_tpr, bigram_auc = calculate_macro_roc(fpr, tpr)
 
@@ -140,9 +147,11 @@ def run(excute_bigram=True, excute_lstm=True, excute_rf=True, excute_bigram_mult
             temp_fpr, temp_tpr, _ = roc_curve(each_lstm_result['y'], each_lstm_result['probs'])
             fpr.append(temp_fpr)
             tpr.append(temp_tpr)
-            # confusion_matrix = each_lstm_result['confusion_matrix']
-            # labels = ['legit', 'dga']
-            # plot_confusion_matrix(confusion_matrix, labels, title='LSTM CM')
+            # ________________
+            confusion_matrix = each_lstm_result['confusion_matrix']
+            labels = ['legit', 'dga']
+            plot_confusion_matrix(confusion_matrix, labels, title='LSTM CM')
+            # ________________
 
         lstm_fpr, lstm_tpr, lstm_auc = calculate_macro_roc(fpr, tpr)
 
@@ -157,9 +166,11 @@ def run(excute_bigram=True, excute_lstm=True, excute_rf=True, excute_bigram_mult
         prob_per_class_dict = rf_multi_result['probs']
         name_to_index_dict = rf_multi_result['name_to_index']
         index_to_name_dict = rf_multi_result['index_to_name']
-        # confusion_matrix = rf_multi_result['confusion_matrix']
-        # labels = index_to_name_dict.values()
-        # plot_confusion_matrix(confusion_matrix, labels, title='Random forest Multi CM')
+        # ________________
+        confusion_matrix = rf_multi_result['confusion_matrix']
+        labels = index_to_name_dict.values()
+        plot_confusion_matrix(confusion_matrix, labels, title='Random forest Multi CM')
+        # ________________
         number_class = len(name_to_index_dict)
 
         # tpr, fpr, auc for all class
@@ -193,9 +204,11 @@ def run(excute_bigram=True, excute_lstm=True, excute_rf=True, excute_bigram_mult
         probalities = bigram_multi_result['probs']
         name_to_index_dict = bigram_multi_result['name_to_index']
         index_to_name_dict = bigram_multi_result['index_to_name']
-        # confusion_matrix = bigram_multi_result['confusion_matrix']
-        # labels = index_to_name_dict.values()
-        # plot_confusion_matrix(confusion_matrix, labels, title='Bigram multi CM')
+        # ________________
+        confusion_matrix = bigram_multi_result['confusion_matrix']
+        labels = index_to_name_dict.values()
+        plot_confusion_matrix(confusion_matrix, labels, title='Bigram multi CM')
+        # ________________
         number_class = len(name_to_index_dict)
         for i in range(number_class):
             fpr[index_to_name_dict[i]], tpr[index_to_name_dict[i]], _ = roc_curve(y_test[:,i], probalities[:,i])
@@ -223,9 +236,11 @@ def run(excute_bigram=True, excute_lstm=True, excute_rf=True, excute_bigram_mult
         probalities = lstm_multi_result['probs']
         name_to_index_dict = lstm_multi_result['name_to_index']
         index_to_name_dict = lstm_multi_result['index_to_name']
-        # confusion_matrix = lstm_multi_result['confusion_matrix']
-        # labels = index_to_name_dict.values()
-        # plot_confusion_matrix(confusion_matrix, labels, title='LSTM multi CM')
+        # ________________
+        confusion_matrix = lstm_multi_result['confusion_matrix']
+        labels = index_to_name_dict.values()
+        plot_confusion_matrix(confusion_matrix, labels, title='LSTM multi CM')
+        # ________________
         number_class = len(name_to_index_dict)
         for i in range(number_class):
             fpr[index_to_name_dict[i]], tpr[index_to_name_dict[i]], _ = roc_curve(y_test[:,i], probalities[:,i])
@@ -348,16 +363,16 @@ def run(excute_bigram=True, excute_lstm=True, excute_rf=True, excute_bigram_mult
 
 if __name__ == '__main__':
     run(k_fold=1)
-    # plt.clf()
-    # plt.close()
+    plt.clf()
+    plt.close()
 
     # Run dependencies :)
-    rf.excute()
-    # bigram.excute(epoch=5, k_fold=1)
-    # lstm.excute(epoch=2, k_fold=1)
+    # rf.excute()
+    # bigram.excute(epoch=6, k_fold=1)
+    # lstm.excute(epoch=3, k_fold=1)
     #
     # rf_multi.excute()
-    # bigram_multi.excute(epoch=5, k_fold=1)
+    # bigram_multi.excute(epoch=3, k_fold=1)
     # lstm_multi.excute(epoch=2, k_fold=1)
 
 
