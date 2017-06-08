@@ -19,7 +19,7 @@ RESULT = './export/result.pkl'
 
 def evaluate(excute_bigram=True, excute_lstm=True, excute_rf=True,
              excute_bigram_multi=True, excute_lstm_multi=True,
-             excute_rf_multi=True, k_fold=10):
+             excute_rf_multi=True, k_fold=10, epoch=70):
 
     bigram_result = None
     lstm_result = None
@@ -28,18 +28,35 @@ def evaluate(excute_bigram=True, excute_lstm=True, excute_rf=True,
     lstm_multi_result = None
     rf_multi_result = None
 
-    if excute_bigram:
-        bigram_result = bigram.excute(k_fold=k_fold)
-    if excute_lstm:
-        lstm_result = lstm.excute(k_fold=k_fold)
-    if excute_rf:
-        rf_result = rf.excute()
-    if excute_bigram_multi:
-        bigram_multi_result = bigram_multi.excute(k_fold=k_fold)
-    if excute_lstm_multi:
-        lstm_multi_result = lstm_multi.excute(k_fold=k_fold)
-    if excute_rf_multi:
-        rf_multi_result = rf_multi.excute()
+
+    if epoch < 10:
+        # Quick scan to demo and test
+        if excute_bigram:
+            bigram_result = bigram.excute(k_fold=k_fold, epoch=epoch)
+        if excute_lstm:
+            lstm_result = lstm.excute(k_fold=k_fold, epoch=epoch)
+        if excute_rf:
+            rf_result = rf.excute()
+        if excute_bigram_multi:
+            bigram_multi_result = bigram_multi.excute(k_fold=k_fold, epoch=epoch)
+        if excute_lstm_multi:
+            lstm_multi_result = lstm_multi.excute(k_fold=k_fold, epoch=epoch)
+        if excute_rf_multi:
+            rf_multi_result = rf_multi.excute()
+    else:
+        # Full scan for deploy
+        if excute_bigram:
+            bigram_result = bigram.excute(k_fold=k_fold)
+        if excute_lstm:
+            lstm_result = lstm.excute(k_fold=k_fold)
+        if excute_rf:
+            rf_result = rf.excute()
+        if excute_bigram_multi:
+            bigram_multi_result = bigram_multi.excute(k_fold=k_fold)
+        if excute_lstm_multi:
+            lstm_multi_result = lstm_multi.excute(k_fold=k_fold)
+        if excute_rf_multi:
+            rf_multi_result = rf_multi.excute()
 
     return rf_result, bigram_result, lstm_result, rf_multi_result, bigram_multi_result, lstm_multi_result
 
@@ -81,7 +98,7 @@ def plot_confusion_matrix(confusion_matrix, labels, title='Confusion Matrix'):
 
 
 def run(excute_bigram=True, excute_lstm=True, excute_rf=True, excute_bigram_multi=True, excute_lstm_multi=True,
-             excute_rf_multi=True, k_fold=10, gate=False):
+             excute_rf_multi=True, k_fold=10, gate=False, epoch=70):
 
     print '[*] Loading......'
     if gate or (not os.path.isfile(RESULT)):
@@ -90,7 +107,7 @@ def run(excute_bigram=True, excute_lstm=True, excute_rf=True, excute_bigram_mult
         rf_multi_result, bigram_multi_result, lstm_multi_result = \
             evaluate(excute_bigram, excute_lstm, excute_rf,
                      excute_bigram_multi, excute_lstm_multi, excute_rf_multi,
-                     k_fold=k_fold)
+                     k_fold=k_fold, epoch=epoch)
 
         result = {'random_forest': rf_result, 'bigram': bigram_result, 'lstm': lstm_result,
                   'random_forest_multi': rf_multi_result, 'bigram_multi': bigram_multi_result,
@@ -362,17 +379,14 @@ def run(excute_bigram=True, excute_lstm=True, excute_rf=True, excute_bigram_mult
 
 
 if __name__ == '__main__':
-    run(k_fold=1)
+
+    # Full scan
+    # run(k_fold=1)
+
+    # Quick scan
+    run(k_fold=1, epoch=1)
+
     plt.clf()
     plt.close()
-
-    # Run dependencies :)
-    # rf.excute()
-    # bigram.excute(epoch=6, k_fold=1)
-    # lstm.excute(epoch=3, k_fold=1)
-    #
-    # rf_multi.excute()
-    # bigram_multi.excute(epoch=3, k_fold=1)
-    # lstm_multi.excute(epoch=2, k_fold=1)
 
 
