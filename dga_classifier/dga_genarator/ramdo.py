@@ -1,5 +1,6 @@
+# Bui Duc Hung - KSCLC HTTT&TT K57 - BKHN - 5/2017
+# DGA Classify Project
 # Ramdo DGA
-# https://www.damballa.com/behind-ramdo-dga-domain-generation-algorithm/
 
 
 def generate_domain(seed_num, domain_iterator, length=0x10, add_tld=False):

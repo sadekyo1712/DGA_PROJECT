@@ -1,4 +1,5 @@
-# Original: https://github.com/baderj/domain_generation_algorithms/blob/master/corebot/dga.py
+# Bui Duc Hung - KSCLC HTTT&TT K57 - BKHN - 5/2017
+# DGA Classify Project
 from datetime import datetime
 
 def init_rand_and_chars(year, month, day, nr_b, r):

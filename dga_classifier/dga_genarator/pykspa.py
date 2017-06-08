@@ -1,4 +1,5 @@
-# Original: https://github.com/baderj/domain_generation_algorithms/blob/master/pykspa/improved/dga.py
+# Bui Duc Hung - KSCLC HTTT&TT K57 - BKHN - 5/2017
+# DGA Classify Project
 import json
 import argparse
 from datetime import datetime

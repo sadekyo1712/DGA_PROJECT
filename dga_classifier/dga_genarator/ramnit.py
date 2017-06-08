@@ -1,4 +1,5 @@
-# Original: https://github.com/baderj/domain_generation_algorithms/blob/master/ramnit/dga.py
+# Bui Duc Hung - KSCLC HTTT&TT K57 - BKHN - 5/2017
+# DGA Classify Project
 class RandInt:
 
     def __init__(self, seed): 

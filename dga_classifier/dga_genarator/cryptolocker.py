@@ -1,4 +1,5 @@
-# http://resources.infosecinstitute.com/domain-generation-algorithm-dga/
+# Bui Duc Hung - KSCLC HTTT&TT K57 - BKHN - 5/2017
+# DGA Classify Project
 # cryptolocker
 from datetime import datetime, timedelta
 

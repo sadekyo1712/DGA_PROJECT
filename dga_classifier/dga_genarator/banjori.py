@@ -1,4 +1,5 @@
-# Original code: https://github.com/baderj/domain_generation_algorithms/blob/master/banjori/dga.py
+# Bui Duc Hung - KSCLC HTTT&TT K57 - BKHN - 5/2017
+# DGA Classify Project
 def map_to_lowercase_letter(s):
     return ord('a') + ((s - ord('a')) % 26)
 

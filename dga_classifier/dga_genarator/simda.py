@@ -1,4 +1,5 @@
-# Original: https://github.com/baderj/domain_generation_algorithms/blob/master/simda/dga.py
+# Bui Duc Hung - KSCLC HTTT&TT K57 - BKHN - 5/2017
+# DGA Classify Project
 def generate_domains(nr_domains, length=10, tld="com", key = "1676d5775e05c50b46baa5579d4fc7", base = 0x45AE94B2):
     consonants = "qwrtpsdfghjklzxcvbnmv"
     vowels = "eyuioa"

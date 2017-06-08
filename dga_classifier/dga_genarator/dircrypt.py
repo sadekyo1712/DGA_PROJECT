@@ -1,4 +1,5 @@
-# Original: https://github.com/baderj/domain_generation_algorithms/blob/master/dircrypt/dga.py
+# Bui Duc Hung - KSCLC HTTT&TT K57 - BKHN - 5/2017
+# DGA Classify Project
 import argparse
 
 class RandInt:
