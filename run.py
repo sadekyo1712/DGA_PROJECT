@@ -94,8 +94,8 @@ def plot_confusion_matrix(confusion_matrix, labels, title='Confusion Matrix'):
     plt.yticks(tickmark, labels)
     plt.xlabel('Predicted')
     plt.ylabel('True')
-    # plt.show()
-    plt.savefig('./image_analysis/' + title + '.png')
+    plt.show()
+    # plt.savefig('./image_analysis/' + title + '.png')
 
 
 def run(excute_bigram=True, excute_lstm=True, excute_rf=True, excute_bigram_multi=True, excute_lstm_multi=True,
